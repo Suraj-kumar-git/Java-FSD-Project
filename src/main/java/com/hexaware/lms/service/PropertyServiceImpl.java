@@ -17,7 +17,7 @@ public class PropertyServiceImpl implements IPropertyService {
 
 	private final PropertyRepository propertyRepo;
 
-    @Autowired
+	@Autowired
     public PropertyServiceImpl(PropertyRepository propertyRepo) {
         this.propertyRepo = propertyRepo;
     }
