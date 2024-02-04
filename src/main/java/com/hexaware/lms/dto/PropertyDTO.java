@@ -17,7 +17,7 @@ public class PropertyDTO {
 	@Lob
 	private byte[] propertyProof;
 
-	private int loanApplicationId;
+	private long loanApplicationId;
 
 	public PropertyDTO() {
 		super();
@@ -73,7 +73,7 @@ public class PropertyDTO {
 		this.propertyProof = propertyProof;
 	}
 
-	public int getLoanApplicationId() {
+	public Long getLoanApplicationId() {
 		return loanApplicationId;
 	}
 

@@ -2,75 +2,57 @@ package com.hexaware.lms.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hexaware.lms.dto.CustomerDTO;
 import com.hexaware.lms.entities.Customer;
-import com.hexaware.lms.entities.LoanApplication;
+import com.hexaware.lms.repository.CustomerRepository;
 
 @Service
 public class CustomerServiceImpl implements ICustomerService {
 
+	@Autowired
+	CustomerRepository repo;
+	
 	@Override
-	public boolean login(String role, String username, String password) {
+	public boolean login(String username, String password) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean register(Customer customer) {
-		// TODO Auto-generated method stub
+	public boolean register(CustomerDTO customerDTO) {
+		Customer customer = new Customer();
+		customer.setCustomerFirstName(customerDTO.getCustomerFirstName());
+		customer.setCustomerLastName(customerDTO.getCustomerLastName());
+		customer.setEmail(customerDTO.getEmail());
+		customer.setPhoneNumer(customerDTO.getPhoneNumer());
+		customer.setPassword(customerDTO.getPassword());
+		customer.setDateOfBirth(customerDTO.getDateOfBirth());
+		customer.setAddress(customerDTO.getAddress());
+		customer.setCountry("India");
+		customer.setState(customerDTO.getState());
+		customer.setCreditScore(customerDTO.getCreditScore());
+		customer.setPanCardNumber(customerDTO.getPanCardNumber());
+		customer.setIdProof(customerDTO.getIdProof());
+		customer.setRole("Regular");
+		
+		Customer addedCustomer = repo.save(customer);
+		if(addedCustomer != null) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
-	public double interestCalculator(double principal, double rate, int tenure) {
-		// TODO Auto-generated method stub
-		return 0;
+	public List<Customer> viewAllCustomers() {
+		return repo.findAll();
 	}
 
 	@Override
-	public double emiCalculator(double principal, double rate, int tenure) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Customer viewCustomerDetails(long customerId) {
+		return repo.findById(customerId).orElse(null);		
 	}
-
-	@Override
-	public List<LoanApplication> customerViewAllLoans() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<LoanApplication> searchAvaiableLoans(String loanType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<LoanApplication> filterAvailableLoansByType(String loanType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<LoanApplication> filterLoanByType(String loanType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<LoanApplication> filterLoanByStatus(String status) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public LoanApplication applyLoan(LoanApplication loan) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	
 
 }

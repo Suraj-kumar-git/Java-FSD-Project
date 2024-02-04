@@ -17,8 +17,6 @@ public class LoanApplicationDTO {
 	
 	private int tenureInMonths;
 	
-	private String loanType;
-	
 	private String status;
 	
 	private LocalDate loanApplyDate;
@@ -33,12 +31,11 @@ public class LoanApplicationDTO {
 		super();
 	}
 
-	public LoanApplicationDTO(double principal, int tenureInMonths, String loanType, int loanTypeId, int propertyId,
+	public LoanApplicationDTO(double principal, int tenureInMonths,int loanTypeId,int propertyId,
 			int customerId) {
 		super();
 		this.principal = principal;
 		this.tenureInMonths = tenureInMonths;
-		this.loanType = loanType;
 		this.loanTypeId = loanTypeId;
 		this.propertyId = propertyId;
 		this.customerId = customerId;
@@ -74,14 +71,6 @@ public class LoanApplicationDTO {
 
 	public void setTenureInMonths(int tenureInMonths) {
 		this.tenureInMonths = tenureInMonths;
-	}
-
-	public String getLoanType() {
-		return loanType;
-	}
-
-	public void setLoanType(String loanType) {
-		this.loanType = loanType;
 	}
 
 	public String getStatus() {
@@ -127,7 +116,7 @@ public class LoanApplicationDTO {
 	@Override
 	public String toString() {
 		return "LoanApplicationDTO [loanId=" + loanId + ", principal=" + principal + ", interestRate=" + interestRate
-				+ ", tenureInMonths=" + tenureInMonths + ", loanType=" + loanType + ", status=" + status
+				+ ", tenureInMonths=" + tenureInMonths+ ", status=" + status
 				+ ", loanApplyDate=" + loanApplyDate + ", loanTypeId=" + loanTypeId + ", propertyId=" + propertyId
 				+ ", customerId=" + customerId + "]";
 	}

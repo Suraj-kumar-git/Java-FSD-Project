@@ -6,11 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Admin {
+public class Admin{
 	@Id
 	@SequenceGenerator(name="admin_sequence",initialValue=10001)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="admin_sequence")
@@ -26,7 +24,7 @@ public class Admin {
 
 	private String password;
 	
-	@Column(columnDefinition = "varchar(5) default 'Admin'")
+	@Column(columnDefinition = "varchar(5) default 'Admin'",nullable=false)
 	private String role;
 	
 	public Admin() {

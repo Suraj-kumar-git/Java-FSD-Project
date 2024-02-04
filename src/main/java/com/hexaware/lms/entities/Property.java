@@ -1,11 +1,11 @@
 package com.hexaware.lms.entities;
 
-import java.util.Arrays;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
@@ -13,11 +13,11 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="property_details")
-public class Property {
+public class Property{
 	@Id
 	@SequenceGenerator(name="property_sequence",initialValue=3001)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="property_sequence")
-	private int propertyId;
+	private long propertyId;
 	
 	private String propertyAddress;
 
@@ -28,7 +28,8 @@ public class Property {
 	@Lob
 	private byte[] propertyProof;
 	
-	@OneToOne(mappedBy="property")
+	@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "loan_id", unique = true)
 	private LoanApplication loanApplication;
 	
 	public Property() {
@@ -45,7 +46,7 @@ public class Property {
 		this.loanApplication = loanApplication;
 	}
 
-	public int getPropertyId() {
+	public long getPropertyId() {
 		return propertyId;
 	}
 
@@ -91,13 +92,6 @@ public class Property {
 
 	public void setLoanApplication(LoanApplication loanApplication) {
 		this.loanApplication = loanApplication;
-	}
-
-	@Override
-	public String toString() {
-		return "Property [propertyId=" + propertyId + ", propertyAddress=" + propertyAddress + ", propertyAreaInm2="
-				+ propertyAreaInm2 + ", propertyValue=" + propertyValue + ", propertyProof="
-				+ Arrays.toString(propertyProof) + ", loanApplication=" + loanApplication + "]";
 	}
 	
 	

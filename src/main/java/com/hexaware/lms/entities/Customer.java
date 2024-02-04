@@ -13,11 +13,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Customer {
+public class Customer{
 	@Id
 	@SequenceGenerator(name="customer_sequence",initialValue=1001)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="customer_sequence")// We have to set the initial value for id field in the database
@@ -39,8 +37,7 @@ public class Customer {
 	private LocalDate dateOfBirth;
 	
 	private String address;
-	
-	@Column(columnDefinition = "varchar(10) default 'India'")
+
 	private String country;
 	
 	private String state;
@@ -51,8 +48,7 @@ public class Customer {
 	
 	@Lob
 	private byte[] idProof;
-	
-	@Column(columnDefinition = "varchar(10) default 'regular'")
+
 	private String role;
 	
 	@OneToMany(mappedBy="customer")
@@ -75,6 +71,11 @@ public class Customer {
 		this.idProof = idProof;
 	}
 
+	public Customer() {
+		
+	}
+
+	
 	public long getCustomerId() {
 		return customerId;
 	}
@@ -201,7 +202,7 @@ public class Customer {
 				+ customerLastName + ", phoneNumer=" + phoneNumer + ", email=" + email + ", password=" + password
 				+ ", dateOfBirth=" + dateOfBirth + ", address=" + address + ", country=" + country + ", state=" + state
 				+ ", creditScore=" + creditScore + ", panCardNumber=" + panCardNumber + ", idProof="
-				+ Arrays.toString(idProof) + ", role=" + role + ", loans=" + loans + "]";
+				+ Arrays.toString(idProof) + ", role=" + role +"]";
 	}
 	
 	
