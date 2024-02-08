@@ -3,9 +3,13 @@ package com.hexaware.lms.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,8 +26,6 @@ public class LoanType{
 	
 	private double loanManagementFees;
 	
-	@OneToMany(mappedBy="loanType",cascade=CascadeType.ALL)
-	private List<LoanApplication> appliedLoans = new ArrayList<>();
 	public LoanType() {
 		super();
 	}
@@ -58,13 +60,6 @@ public class LoanType{
 	}
 	public void setLoanManagementFees(double loanManagementFees) {
 		this.loanManagementFees = loanManagementFees;
-	}
-	public List<LoanApplication> getAppliedLoans() {
-		return appliedLoans;
-	}
-	public void setAppliedLoans(List<LoanApplication> appliedLoans) {
-		this.appliedLoans = appliedLoans;
-	}
-	
+	}	
 
 }

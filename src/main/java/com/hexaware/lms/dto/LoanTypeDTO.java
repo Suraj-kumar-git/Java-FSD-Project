@@ -1,13 +1,22 @@
 package com.hexaware.lms.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
+
 public class LoanTypeDTO {
 	
 	private long loanTypeId;
 	
+	@Pattern(regexp="[A-Z]{20}")
 	private String loanTypeName;
 	
+	@Min(8)
+	@Max(30)
 	private double loanInterestBaseRate;
 	
+	@Min(1000)
+	@Max(20000)
 	private double loanManagementFees;
 	
 	public LoanTypeDTO() {

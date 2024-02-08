@@ -17,6 +17,8 @@ class PropertyServiceImplTest {
 	@Autowired
 	IPropertyService serviceTest;
 	
+	Logger log = LoggerFactory.getLogger(AdminServiceImplTest.class);
+	
 	Logger logger = LoggerFactory.getLogger(PropertyServiceImplTest.class);
 
 	@Test
@@ -31,15 +33,16 @@ class PropertyServiceImplTest {
             propertyAddress, propertyAreaInm2, propertyValue,
             propertyProof, loanApplicationId
         );
-		
+		logger.info("Test running for creating property: "+propertyDto);
 		serviceTest.createProperty(propertyDto);
 	}
 
 	@Test
 	void testViewPropertyForLoan() {
 		long loanID=2001;
+		logger.info("Test running for viewing property of laon: "+loanID);
 		Property property =serviceTest.viewPropertyForLoan(loanID);
-		logger.info("Property Id: "+property.getPropertyId());
+		logger.info("Property found Id: "+property.getPropertyId());
 		assertNotNull(property);
 	}
 

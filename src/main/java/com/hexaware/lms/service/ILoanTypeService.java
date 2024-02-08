@@ -4,11 +4,19 @@ import java.util.List;
 
 import com.hexaware.lms.dto.LoanTypeDTO;
 import com.hexaware.lms.entities.LoanType;
+import com.hexaware.lms.exception.LoanNotFoundException;
+import com.hexaware.lms.exception.LoanTypeAlreadyExistException;
 
 public interface ILoanTypeService {
-	List<LoanType> viewAvailableLoans();
+	List<LoanType> viewAvailableLoanType();
 	
-	void createLoanType(LoanTypeDTO loanTypeDto);
+	void createLoanType(LoanTypeDTO loanTypeDto) throws LoanTypeAlreadyExistException;
 
-	List<LoanType> searchDashboardLoansToApply(String loanType);
+	List<LoanType> searchDashboardLoansToApply(String loanType) throws LoanNotFoundException;
+	
+	LoanType updateLoanTypeById(LoanType loanType);
+	
+	LoanType getLoanTypeById(long loanTypeId);
+	
+	void deleteLoanType(long loanTypeId);
 }

@@ -3,29 +3,45 @@ package com.hexaware.lms.dto;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public class CustomerDTO {
 	private long customerId;
 
+	@Size(min=3,max=20)
 	private String customerFirstName;
 
 	private String customerLastName;
 
+	@Size(min=10,max=12)
 	private long phoneNumer;
 
+	@Email
 	private String email;
 
+	@Size(min=6,max=20)
 	private String password;
 
 	private LocalDate dateOfBirth;
 
+	@Size(max=100)
 	private String address;
 
 	private String country;
 
+	@NotBlank
 	private String state;
 
+	@Min(500)
+	@Max(900)
 	private int creditScore;
 
+	@Pattern(regexp="[A-Z]{5}[1-0]{4}[A-Z]{1}")
 	private String panCardNumber;
 
 	private byte[] idProof;

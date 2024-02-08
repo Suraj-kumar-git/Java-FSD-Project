@@ -1,7 +1,11 @@
 package com.hexaware.lms.entities;
 
+import java.util.Arrays;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,7 +22,7 @@ public class Property{
 	@SequenceGenerator(name="property_sequence",initialValue=3001)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="property_sequence")
 	private long propertyId;
-	
+		
 	private String propertyAddress;
 
 	private double propertyAreaInm2;
@@ -28,22 +32,16 @@ public class Property{
 	@Lob
 	private byte[] propertyProof;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "loan_id", unique = true)
-	private LoanApplication loanApplication;
-	
 	public Property() {
 		super();
 	}
 
-	public Property(String propertyAddress, double propertyAreaInm2, double propertyValue, byte[] propertyProof,
-			LoanApplication loanApplication) {
+	public Property(String propertyAddress, double propertyAreaInm2, double propertyValue, byte[] propertyProof) {
 		super();
 		this.propertyAddress = propertyAddress;
 		this.propertyAreaInm2 = propertyAreaInm2;
 		this.propertyValue = propertyValue;
 		this.propertyProof = propertyProof;
-		this.loanApplication = loanApplication;
 	}
 
 	public long getPropertyId() {
@@ -85,13 +83,12 @@ public class Property{
 	public void setPropertyProof(byte[] propertyProof) {
 		this.propertyProof = propertyProof;
 	}
-
-	public LoanApplication getLoanApplication() {
-		return loanApplication;
-	}
-
-	public void setLoanApplication(LoanApplication loanApplication) {
-		this.loanApplication = loanApplication;
+	
+	@Override
+	public String toString() {
+		return "Property [propertyId=" + propertyId + ", propertyAddress=" + propertyAddress + ", propertyAreaInm2="
+				+ propertyAreaInm2 + ", propertyValue=" + propertyValue + ", propertyProof="
+				+ Arrays.toString(propertyProof)+ "]";
 	}
 	
 	

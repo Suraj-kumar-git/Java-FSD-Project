@@ -3,15 +3,20 @@ package com.hexaware.lms.dto;
 import java.util.Arrays;
 
 import jakarta.persistence.Lob;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 
 public class PropertyDTO {
 
 	private int propertyId;
 
+	@Size(min=10)
 	private String propertyAddress;
 
+	@Min(10000)
 	private double propertyAreaInm2;
 
+	@Min(1000)
 	private double propertyValue;
 
 	@Lob

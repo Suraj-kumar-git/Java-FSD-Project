@@ -2,30 +2,32 @@ package com.hexaware.lms.dto;
 
 import java.time.LocalDate;
 
-import com.hexaware.lms.entities.Customer;
-
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 public class LoanApplicationDTO {
 	
 	private long loanId;
 
+	@Min(5000)
+	@Max(10000000)
 	private double principal;
 	
 	private double interestRate;
 	
+	@Min(6)
+	@Max(72)
 	private int tenureInMonths;
 	
 	private String status;
 	
 	private LocalDate loanApplyDate;
 	
-	private int loanTypeId;
+	private long loanTypeId;
 	
-	private int propertyId;
+	private long propertyId;
 	
-	private int customerId;
+	private long customerId;
 
 	public LoanApplicationDTO() {
 		super();
@@ -89,28 +91,28 @@ public class LoanApplicationDTO {
 		this.loanApplyDate = loanApplyDate;
 	}
 
-	public int getLoanTypeId() {
+	public long getLoanTypeId() {
 		return loanTypeId;
 	}
 
-	public void setLoanTypeId(int loanTypeId) {
+	public void setLoanTypeId(long loanTypeId) {
 		this.loanTypeId = loanTypeId;
 	}
 
-	public int getPropertyId() {
+	public long getPropertyId() {
 		return propertyId;
 	}
 
-	public void setPropertyId(int propertyId) {
+	public void setPropertyId(long propertyId) {
 		this.propertyId = propertyId;
 	}
 
-	public int getCustomerId() {
+	public long getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
+	public void setCustomerId(long l) {
+		this.customerId = l;
 	}
 
 	@Override

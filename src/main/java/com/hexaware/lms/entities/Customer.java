@@ -5,6 +5,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -51,7 +56,7 @@ public class Customer{
 
 	private String role;
 	
-	@OneToMany(mappedBy="customer")
+	@OneToMany
 	private Set<LoanApplication> loans = new HashSet<>();
 
 	public Customer(String customerFirstName, String customerLastName, long phoneNumer, String email, String password,
@@ -188,6 +193,7 @@ public class Customer{
 		this.role = role;
 	}
 
+//	@JsonIgnore
 	public Set<LoanApplication> getLoans() {
 		return loans;
 	}

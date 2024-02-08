@@ -2,21 +2,26 @@ package com.hexaware.lms.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hexaware.lms.dto.CustomerDTO;
 import com.hexaware.lms.entities.Customer;
+import com.hexaware.lms.exception.CustomerNotFoundException;
+import com.hexaware.lms.exception.DataAlreadyPresentException;
 
 @SpringBootTest
 class CustomerServiceImplTest {
 
+	Logger log = LoggerFactory.getLogger(AdminServiceImplTest.class);
+	
 	@Autowired
 	ICustomerService serviceTest;
 
@@ -28,7 +33,7 @@ class CustomerServiceImplTest {
 	}
 
 	@Test
-	void testRegister() {
+	void testRegister() throws DataAlreadyPresentException {
 		CustomerDTO customer = new CustomerDTO();
 		customer.setCustomerFirstName("Suraj");
 		customer.setCustomerLastName("Kumar");
@@ -44,6 +49,7 @@ class CustomerServiceImplTest {
 		customer.setIdProof(new byte[5]);
 		customer.setRole("Regular");
 
+		log.info("Test running to register a new customer: "+customer);
 		boolean isRegistered = serviceTest.register(customer);
 		assertTrue(isRegistered);
 	}
@@ -51,16 +57,15 @@ class CustomerServiceImplTest {
 	@Test
 	void testViewAllCustomers() {
 		List<Customer> customers = serviceTest.viewAllCustomers();
-		System.out.println("\n\n***********************\n");
-		System.out.println(customers.get(0).getCustomerFirstName());
-		System.out.println("\n\n");
+		log.info("Test running to view all customers");
 		assertNotNull(customers);
 	}
 
 	@Test
-	void testViewCustomerDetails() {
+	void testViewCustomerDetails() throws CustomerNotFoundException {
 		long customerId=1001;
-		Customer customer = serviceTest.viewCustomerDetails(customerId);
+		Customer customer = serviceTest.viewCustomerDetailsById(customerId);
+		log.info("Test running to view details of customer: "+customer);
 		assertNotNull(customer);
 	}
 

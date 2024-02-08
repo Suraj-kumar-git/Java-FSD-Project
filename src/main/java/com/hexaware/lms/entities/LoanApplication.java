@@ -2,12 +2,9 @@ package com.hexaware.lms.entities;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,7 +14,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 
 @Entity
-@JsonIgnoreProperties({"loanType", "property", "customer"})
 public class LoanApplication {
 	@Id
 	@SequenceGenerator(name="loan_sequence",initialValue=2001)
@@ -30,19 +26,19 @@ public class LoanApplication {
 	
 	private int tenureInMonths;
 	
-	private String status;
+	private String status="Pending";
 	
 	private LocalDate loanApplyDate;
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="loanTypeId")
 	private LoanType loanType;
 	
-	@OneToOne(cascade = CascadeType.ALL,fetch=FetchType.LAZY)
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="property_id")
 	private Property property;
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 
@@ -96,10 +92,6 @@ public class LoanApplication {
 		return status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public LocalDate getLoanApplyDate() {
 		return loanApplyDate;
 	}
@@ -108,8 +100,6 @@ public class LoanApplication {
 		this.loanApplyDate = loanApplyDate;
 	}
 
-//	Without @JsonIgonre the error will occur:- "serialization infinite recursion," where the objects being serialized contain circular references. In your case, it appears that the Loan class has a bidirectional relationship with the LoanType class, and when Jackson tries to serialize the object graph, it gets stuck in an infinite loop.
-	@JsonIgnore
 	public LoanType getLoanType() {
 		return loanType;
 	}
@@ -137,7 +127,7 @@ public class LoanApplication {
 	@Override
 	public String toString() {
 		return "LoanApplication [loanId=" + loanId + ", principal=" + principal + ", interestRate=" + interestRate
-				+ ", tenureInMonths=" + tenureInMonths + ", status=" + status + ", loanApplyDate=" + loanApplyDate
+				+ ", tenureInMonths=" + tenureInMonths + ", status=" + this.getStatus() + ", loanApplyDate=" + loanApplyDate
 				+ ", loanType=" + loanType.getLoanTypeName() + ", property=" + property.getPropertyId() + ", customer=" + customer.getCustomerFirstName() 
 				+ "]";
 	}
