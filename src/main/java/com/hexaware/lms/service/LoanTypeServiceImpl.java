@@ -64,13 +64,6 @@ public class LoanTypeServiceImpl implements ILoanTypeService {
 		logger.info("Updating LoanType: "+loanType);
 		return repo.save(loanType);
 	}
-	
-
-	@Override
-	public void deleteLoanType(long loanTypeId) {
-		logger.info("Deleting loanType: "+loanTypeId);
-		repo.deleteById(loanTypeId);
-	}
 
 	@Override
 	public LoanType getLoanTypeById(long loanTypeId) {

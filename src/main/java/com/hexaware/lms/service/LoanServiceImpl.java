@@ -65,10 +65,12 @@ public class LoanServiceImpl implements ILoanService{
 		loan.setLoanApplyDate(loanApplicationDate);
 		loan.setInterestRate(interestRate);
 		
+		logger.info("Loan application started...");
 		String propertyDtoAddress = propertyDto.getPropertyAddress();
 		double propertyDtoArea = propertyDto.getPropertyAreaInm2();
 		
 		Property tempProperty =propRepo.getProperty(propertyDtoAddress,propertyDtoArea);
+		logger.info("Property details read...");
 		if(tempProperty!=null) {
 			logger.warn("User is entering duplicate property details");
 			throw new PropertyAlreadyExistException("Property details already taken.");
@@ -78,7 +80,9 @@ public class LoanServiceImpl implements ILoanService{
 		property.setPropertyAreaInm2(propertyDto.getPropertyAreaInm2());
 		property.setPropertyValue(propertyDto.getPropertyValue());
 		property.setPropertyProof(propertyDto.getPropertyProof());
+		logger.info("Property details saved...");
 		loan.setProperty(property);
+		logger.info("loanApplication submitted successfully");
 		return loanRepo.save(loan);
 	}
 
@@ -86,6 +90,7 @@ public class LoanServiceImpl implements ILoanService{
 	@Override
 	public double interestCalculator(long customerId) {
 		LoanApplication loan= loanRepo.propertiesToCalculate(customerId);
+		logger.info("Interest is being calculated for the customer: "+customerId);
 		return (loan.getPrincipal()*loan.getInterestRate()*loan.getTenureInMonths())/12;
 	}
 
@@ -99,7 +104,10 @@ public class LoanServiceImpl implements ILoanService{
 		double p = loan.getPrincipal();
 		double r = loan.getInterestRate();
 		double t = loan.getTenureInMonths();
-		return (p*r*Math.pow((1+r),t))/(Math.pow((1+r),(t-1)));
+		
+		double emi=(p*r*Math.pow((1+r),t))/(Math.pow((1+r),(t-1)));
+		logger.info("EMI for the laon is calculated as: "+emi);
+		return emi;
 	}
 
 	@Override
@@ -108,11 +116,13 @@ public class LoanServiceImpl implements ILoanService{
 		boolean isPresent=false;
 		for(LoanApplication lp:loans) {
 			if(lp.getLoanType().equals(loanType)) {
+				logger.info("Loan Type found...");
 				isPresent=true;
 				break;
 			}
 		}
 		if(!isPresent) {
+			logger.warn("No loan type found for that user");
 			throw new LoanNotFoundException("You have not applied any "+loanType+" loan");
 		}
 		return loanRepo.filterAppliedLoanByType(customerId,loanType);
@@ -124,11 +134,13 @@ public class LoanServiceImpl implements ILoanService{
 		boolean isPresent=false;
 		for(LoanApplication lp:loans) {
 			if(lp.getStatus()==status) {
+				logger.info("Loan status found...");
 				isPresent=true;
 				break;
 			}
 		}
 		if(!isPresent) {
+			logger.warn("No loan status found for that user");
 			throw new LoanNotFoundException("None of your loan is "+status);
 		}
 		return loanRepo.filterAppliedLoanByStatus(customerId, status);
@@ -140,11 +152,13 @@ public class LoanServiceImpl implements ILoanService{
 		boolean isPresent=false;
 		for(LoanApplication lp:loans) {
 			if(lp.getLoanId()==loanId) {
+				logger.info("Loan is present for the customer...");
 				isPresent=true;
 				break;
 			}
 		}
 		if(!isPresent) {
+			logger.warn("Customer has input wrong loan number to search for...");
 			throw new LoanNotFoundException("No Loan found with that loan number");
 		}
 		return loanRepo.findByLoanId(customerId,loanId);
@@ -152,16 +166,19 @@ public class LoanServiceImpl implements ILoanService{
 
 	@Override
 	public List<LoanApplication> allAppliedLoansOfCustomer(long customerId) {
+		logger.info("Customer is viewing all their loan applications...");
 		return loanRepo.findAllByCustomerCustomerId(customerId);
 	}
 	
 	@Override
 	public List<LoanApplication> allAppliedLoansOfCustomerForAdmin() {
+		logger.info("Admin is viewing all the latest loan applicaions on the portal...");
 		return loanRepo.findAll();
 	}
 	
 	@Override
 	public void customerUpdateLoanStatus(long loanId, String status) {
+		logger.info("Admin is updating the loan application: "+loanId);
 		loanRepo.updateLoanStatus(status, loanId);
 	}
 
@@ -170,8 +187,10 @@ public class LoanServiceImpl implements ILoanService{
 	public LoanApplication searchLoanById(long loanId) throws LoanNotFoundException {
 		LoanApplication loan =loanRepo.findById(loanId).orElse(null);
 		if(loan==null) {
+			logger.warn("No Record Found for loanID: "+loanId);
 			throw new LoanNotFoundException("No Record Found for loanID: "+loanId);
 		}
+		logger.info("Loan found with id: "+loanId);
 		return loan;
 	}
 	

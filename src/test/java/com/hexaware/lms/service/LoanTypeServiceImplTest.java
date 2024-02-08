@@ -39,15 +39,6 @@ class LoanTypeServiceImplTest {
 	}
 	
 	@Test
-	void testDeleteLoan() {
-		long loanTypeId=1;
-		serviceTest.deleteLoanType(loanTypeId);
-		log.info("Test running to delete a LoanType: "+loanTypeId);
-		LoanType loanType= serviceTest.getLoanTypeById(loanTypeId);
-		assertNull(loanType);
-	}
-	
-	@Test
 	void testUpdateLoanType() {
 		long checkLoanType=1;
 		

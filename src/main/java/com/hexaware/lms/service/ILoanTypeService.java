@@ -17,6 +17,4 @@ public interface ILoanTypeService {
 	LoanType updateLoanTypeById(LoanType loanType);
 	
 	LoanType getLoanTypeById(long loanTypeId);
-	
-	void deleteLoanType(long loanTypeId);
 }

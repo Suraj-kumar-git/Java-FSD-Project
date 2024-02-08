@@ -121,13 +121,6 @@ public class AdminRestController {
 		return loanTypeService.updateLoanTypeById(loanType);
 	}
 	
-	@DeleteMapping("/deleteLoanType/{loanTypeId}")
-	public String deleteLoanType(@PathVariable long loanTypeId) {
-		loanTypeService.deleteLoanType(loanTypeId);
-		log.info("Request received to delete LoanType");
-		return "Loan Type deleted Successfully";
-	}
-	
 	@ExceptionHandler({LoanTypeAlreadyExistException.class})
 	public ResponseEntity<String> handleLoanTypeRelated(LoanTypeAlreadyExistException e){
 		log.warn("Some Exception has Occurred....See the logs above and below.");
